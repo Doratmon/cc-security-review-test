@@ -33,16 +33,15 @@ public class RegistrationWebView extends AppCompatActivity {
 
         webView.setWebViewClient(new WebViewClient());
 
-        //Allows cross-origin requests from file:// scheme to access content from any origin
-        webView.getSettings().setAllowUniversalAccessFromFileURLs(true);
+        // SECURITY FIX: 禁用 file:// 跨域访问，防止本地文件窃取
+        webView.getSettings().setAllowUniversalAccessFromFileURLs(false);
 
         //Enabling javascript
         webView.getSettings().setJavaScriptEnabled(true);
 
+        // SECURITY FIX: 移除从 Intent 加载任意 URL 的功能，仅允许加载本地注册页面
         if (getIntent().getExtras().getBoolean("is_reg", false)) {
             webView.loadUrl("file:///android_asset/registration.html");
-        } else {
-            webView.loadUrl(getIntent().getStringExtra("reg_url"));
         }
     }
 }

@@ -33,7 +33,11 @@ public class SupportWebView extends AppCompatActivity {
 
         webView.addJavascriptInterface(new WebAppInterface(this), "Android"); //Expose getUserToken java method to browser JS
 
-        webView.loadUrl(getIntent().getStringExtra("support_url"), extraHeaders); //Launching web view
+        // SECURITY FIX: 对加载的 URL 进行白名单校验，防止恶意 URL 注入
+        String supportUrl = getIntent().getStringExtra("support_url");
+        if (supportUrl != null && supportUrl.startsWith("https://www.bugcrowd.com/")) {
+            webView.loadUrl(supportUrl, extraHeaders);
+        }
     }
 
     public static String getUserToken() {

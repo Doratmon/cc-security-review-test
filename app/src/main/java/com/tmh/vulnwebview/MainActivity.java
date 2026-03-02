@@ -21,11 +21,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // SECURITY FIX: 移除硬编码凭据，应从安全存储或服务端获取
+        // 初始化 SharedPreferences（不再写入硬编码凭据）
         SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString("username", "vuln");
-        editor.putString("password", "webview");
-        editor.apply();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
